@@ -1,11 +1,13 @@
 package com.jojo5716.budapp.restapi.controller
 
 import com.jojo5716.budapp.restapi.service.BasicCRUD
+import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
+    @ApiOperation("Get all entities")
     @GetMapping
     fun findAll(): ResponseEntity<List<T>> {
         val entities = basicCRUD.findAll()
