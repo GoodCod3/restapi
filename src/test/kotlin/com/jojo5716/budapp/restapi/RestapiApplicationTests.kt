@@ -68,7 +68,7 @@ class RestapiApplicationTests {
     @Test
     fun findByIdEmpty() {
         mockMvc.perform(MockMvcRequestBuilders.get("${endpointBase}/Unavailable Product"))
-            .andExpect(status().is2xxSuccessful)
+            .andExpect(status().isNoContent)
             .andExpect(jsonPath("&").doesNotExist())
     }
 
@@ -98,7 +98,7 @@ class RestapiApplicationTests {
             MockMvcRequestBuilders.post(endpointBase)
                 .body(firstProduct, mapper)
         )
-            .andExpect(status().is2xxSuccessful)
+            .andExpect(status().isConflict)
             .bodyTo(mapper)
 
         assert(!result) { "Should be false" }
@@ -130,7 +130,7 @@ class RestapiApplicationTests {
             MockMvcRequestBuilders.put(endpointBase)
                 .body(product, mapper)
         )
-            .andExpect(status().is2xxSuccessful)
+            .andExpect(status().isConflict)
             .bodyTo(mapper)
 
         assert(!result) { "Should be false" }
@@ -160,7 +160,7 @@ class RestapiApplicationTests {
         val result: Boolean = mockMvc.perform(
             MockMvcRequestBuilders.delete("${endpointBase}/${product.name}")
         )
-            .andExpect(status().is2xxSuccessful)
+            .andExpect(status().isConflict)
             .bodyTo(mapper)
 
         assert(!result)
