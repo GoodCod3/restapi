@@ -12,22 +12,22 @@ import javax.persistence.EntityNotFoundException
 class ProductService : BasicCRUD<Product, String> {
 
     @Autowired
-    private lateinit var productDao: ProductDAO
+    private lateinit var providerDAO: ProductDAO
 
-    override fun findAll(): List<Product> = this.productDao.findAll()
+    override fun findAll(): List<Product> = this.providerDAO.findAll()
 
-    override fun findById(id: String): Product? = productDao.findByIdOrNull(id)
+    override fun findById(id: String): Product? = this.providerDAO.findByIdOrNull(id)
 
     override fun save(t: Product): Product {
-        if (this.productDao.existsById(t.name)) {
+        if (this.providerDAO.existsById(t.name)) {
             throw DuplicateKeyException("${t.name} does exist")
         }
-        return this.productDao.save(t)
+        return this.providerDAO.save(t)
     }
 
     override fun update(t: Product): Product {
-        if (this.productDao.existsById(t.name)) {
-            return this.productDao.save(t)
+        if (this.providerDAO.existsById(t.name)) {
+            return this.providerDAO.save(t)
         }
 
         throw EntityNotFoundException("${t.name} does exist")
@@ -35,7 +35,7 @@ class ProductService : BasicCRUD<Product, String> {
 
     override fun deleteById(id: String): Product {
         return this.findById(id)?.apply {
-            this@ProductService.productDao.deleteById(id)
+            this@ProductService.providerDAO.deleteById(id)
         } ?: throw EntityNotFoundException("${id} does not exist")
     }
 }

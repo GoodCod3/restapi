@@ -1,9 +1,6 @@
 package com.jojo5716.budapp.restapi.domain
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
@@ -15,7 +12,9 @@ data class Product(
     @get:Min(value = 0)
     var price: Double? = 0.0,
     @get:Min(value = 0)
-    var stock: Int = 0
+    var stock: Int = 0,
+    @ManyToOne
+    var provider: Provider
 ) {
     override fun equals(other: Any?): Boolean {
         other ?: return false
