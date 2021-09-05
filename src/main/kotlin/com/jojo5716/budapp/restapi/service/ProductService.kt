@@ -1,5 +1,6 @@
 package com.jojo5716.budapp.restapi.service
 
+import com.jojo5716.budapp.restapi.controller.ProductBuyParams
 import com.jojo5716.budapp.restapi.dao.ProductDAO
 import com.jojo5716.budapp.restapi.domain.Product
 import org.springframework.dao.DuplicateKeyException
@@ -33,5 +34,16 @@ class ProductService(val productDAO: ProductDAO) : BasicCRUD<Product, String> {
         return this.findById(id)?.apply {
             this@ProductService.productDAO.deleteById(id)
         } ?: throw EntityNotFoundException("${id} does not exist")
+    }
+
+    fun buy(body: ProductBuyParams): Product {
+        val product = this.findById(body.id)
+        if (product != null && product.stock >= body.stock) {
+            product.stock -= body.stock
+
+            return this.update(product)
+        } else {
+            throw EntityNotFoundException("${body.id} does not exist or out of stock")
+        }
     }
 }
