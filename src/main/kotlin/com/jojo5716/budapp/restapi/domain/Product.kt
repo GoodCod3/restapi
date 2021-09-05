@@ -7,8 +7,6 @@ import javax.validation.constraints.Size
 @Entity
 data class Product(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int = 0,
     @get:Size(min = 3, max = 50)
     var name: String,
     @get:Min(value = 0)

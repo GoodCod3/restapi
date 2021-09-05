@@ -19,14 +19,13 @@ class OnBoot(
             providerService.save(defaultProvicer)
         }
         listOf(
-            Product(name = "Apple", price = 22.2, stock = 4, provider = defaultProvicer),
-            Product(name = "Samgsung", price = 12.2, stock = 40, provider = defaultProvicer)
+            Product(name = "Product 1", price = 0.0, stock = 1, provider = defaultProvicer),
+            Product(name = "Product 2", price = 0.0, stock = 1, provider = defaultProvicer)
         ).forEach {
-            if (!productService.existByName(it.name)) {
+            if (!productService.productDAO.existsById(it.name)) {
                 println("Saving ${it.name}")
 
                 productService.save(it)
-
             }
         }
     }

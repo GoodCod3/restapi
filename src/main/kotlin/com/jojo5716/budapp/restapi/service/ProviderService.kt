@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import javax.persistence.EntityNotFoundException
 
 @Service
-class ProviderService(val providerDAO: ProviderDAO): BasicCRUD<Provider, Int> {
+class ProviderService(val providerDAO: ProviderDAO) : BasicCRUD<Provider, Int> {
     override fun findAll(): List<Provider> = this.providerDAO.findAll()
 
     override fun findById(id: Int): Provider? = this.providerDAO.findByIdOrNull(id)
@@ -25,18 +25,12 @@ class ProviderService(val providerDAO: ProviderDAO): BasicCRUD<Provider, Int> {
             return this.providerDAO.save(t)
         }
 
-        throw EntityNotFoundException("${t.id} does exist")    }
+        throw EntityNotFoundException("${t.id} does exist")
+    }
 
     override fun deleteById(id: Int): Provider {
         return this.findById(id)?.apply {
             this@ProviderService.providerDAO.deleteById(id)
         } ?: throw EntityNotFoundException("${id} does not exist")
     }
-
-    override fun existByName(name: String): Boolean {
-        return true
-        //return this.providerDAO.existByName(name) || throw EntityNotFoundException("$name does not exist")
-
-    }
-
 }

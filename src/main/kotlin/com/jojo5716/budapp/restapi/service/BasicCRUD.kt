@@ -6,5 +6,4 @@ interface BasicCRUD<T, ID> {
     fun save(t: T): T
     fun update(t: T): T
     fun deleteById(id: ID): T
-    fun existByName(name: String): Boolean
 }

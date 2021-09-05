@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface ProductDAO : JpaRepository<Product, Int>
+interface ProductDAO : JpaRepository<Product, String>
 
 @Repository
 interface ProviderDAO : JpaRepository<Provider, Int>
