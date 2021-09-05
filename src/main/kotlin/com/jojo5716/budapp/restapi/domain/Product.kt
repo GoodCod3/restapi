@@ -25,7 +25,7 @@ data class Product(
         if (this.javaClass != other.javaClass) return false
         other as Product
 
-        return this.name == other.name
+        return this.id == other.id
     }
 
     override fun hashCode(): Int {
