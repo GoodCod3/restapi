@@ -7,4 +7,4 @@ import java.io.FileNotFoundException
 
 @RestController
 @RequestMapping("/api/v1/products")
-class ProductController(productService: ProductService) : BasicController<Product, String>(productService)
+class ProductController(productService: ProductService) : BasicController<Product, Int>(productService)

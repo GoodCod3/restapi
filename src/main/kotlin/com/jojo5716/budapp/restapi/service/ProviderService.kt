@@ -33,4 +33,10 @@ class ProviderService(val providerDAO: ProviderDAO): BasicCRUD<Provider, Int> {
         } ?: throw EntityNotFoundException("${id} does not exist")
     }
 
+    override fun existByName(name: String): Boolean {
+        return true
+        //return this.providerDAO.existByName(name) || throw EntityNotFoundException("$name does not exist")
+
+    }
+
 }

@@ -88,7 +88,7 @@ class RestapiApplicationTests {
             .andExpect(status().isCreated)
             .bodyTo(mapper)
 
-        assertThat(productService.findById(product.name), Matchers.`is`(productFromApi))
+        assertThat(productService.findById(product.id), Matchers.`is`(productFromApi))
     }
 
     @Test

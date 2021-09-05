@@ -22,7 +22,7 @@ class OnBoot(
             Product(name = "Apple", price = 22.2, stock = 4, provider = defaultProvicer),
             Product(name = "Samgsung", price = 12.2, stock = 40, provider = defaultProvicer)
         ).forEach {
-            if (!productService.providerDAO.existsById(it.name)) {
+            if (!productService.existByName(it.name)) {
                 println("Saving ${it.name}")
 
                 productService.save(it)
