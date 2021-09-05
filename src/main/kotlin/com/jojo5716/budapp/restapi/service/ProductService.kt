@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service
 import javax.persistence.EntityNotFoundException
 
 @Service
-class ProductService : BasicCRUD<Product, String> {
-
-    @Autowired
-    private lateinit var providerDAO: ProductDAO
-
+class ProductService(val providerDAO: ProductDAO) : BasicCRUD<Product, String> {
     override fun findAll(): List<Product> = this.providerDAO.findAll()
 
     override fun findById(id: String): Product? = this.providerDAO.findByIdOrNull(id)
