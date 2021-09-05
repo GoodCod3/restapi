@@ -1,5 +1,7 @@
 package com.jojo5716.budapp.restapi.controller
 
+import com.jojo5716.budapp.restapi.dto.ApiResponse
+import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import java.io.FileNotFoundException
+import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice
 class RestResponseEntityErrorHandler : ResponseEntityExceptionHandler() {
@@ -24,8 +27,11 @@ class RestResponseEntityErrorHandler : ResponseEntityExceptionHandler() {
         return ResponseEntity.status(status).headers(headers).body(result)
     }
 
-    @ExceptionHandler(FileNotFoundException::class)
-    fun fileNotFound(fileNotFoundException: FileNotFoundException): ResponseEntity<String> {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Upss...")
+    @ExceptionHandler(DuplicateKeyException::class, EntityNotFoundException::class)
+    fun handleJpa(exception: Exception): ResponseEntity<ApiResponse> {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse(
+            title = exception::class.simpleName.toString(),
+            message = exception.localizedMessage.toString()
+        ))
     }
 }

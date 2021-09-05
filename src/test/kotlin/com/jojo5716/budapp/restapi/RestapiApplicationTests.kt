@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-import java.util.regex.Matcher
 
 @SpringBootTest
 class RestapiApplicationTests {
@@ -74,16 +73,16 @@ class RestapiApplicationTests {
 
     @Test
     fun saveSuccessfully() {
-        val product = Product(name = "Apple Iphone X", price = 1000.0)
+        val product = Product(name = "Apple2", price = 1000.0, stock = 3)
 
-        val result: Boolean = mockMvc.perform(
+        val productFromApi: Product = mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
                 .body(product, mapper)
         )
-            .andExpect(status().is2xxSuccessful)
+            .andExpect(status().isCreated)
             .bodyTo(mapper)
 
-        assert(result)
+        assertThat(productService.findById(product.name), Matchers.`is`(productFromApi))
     }
 
     @Test
@@ -100,21 +99,22 @@ class RestapiApplicationTests {
     }
 
     @Test
-    fun saveFail() {
+    fun saveDuplicateEntity() {
         val productsFromService: List<Product> = productService.findAll()
 
         assert(!productsFromService.isEmpty()) { "Should not be empty" }
 
         val firstProduct = productsFromService.first()
 
-        val result: Boolean = mockMvc.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
                 .body(firstProduct, mapper)
         )
-            .andExpect(status().isConflict)
-            .bodyTo(mapper)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.title", Matchers.`is`("DuplicateKeyException")))
+            .andExpect(jsonPath("$.message").exists())
 
-        assert(!result) { "Should be false" }
+
     }
 
     @Test
@@ -125,28 +125,25 @@ class RestapiApplicationTests {
 
         val product = productsFromService.first().copy(price = 1000.0)
 
-        val result: Boolean = mockMvc.perform(
+        val result: Product = mockMvc.perform(
             MockMvcRequestBuilders.put(endpointBase)
                 .body(product, mapper)
         )
             .andExpect(status().is2xxSuccessful)
             .bodyTo(mapper)
-
-        assert(result)
     }
 
     @Test
-    fun updateFail() {
+    fun updateEntityNotFound() {
         val product = Product(name = "Unavailable product", price = 123.45)
 
-        val result: Boolean = mockMvc.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.put(endpointBase)
                 .body(product, mapper)
         )
-            .andExpect(status().isConflict)
-            .bodyTo(mapper)
-
-        assert(!result) { "Should be false" }
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.title", Matchers.`is`("EntityNotFoundException")))
+            .andExpect(jsonPath("$.message").exists())
     }
 
     @Test
@@ -157,25 +154,24 @@ class RestapiApplicationTests {
 
         val product = productsFromService.last()
 
-        val result: Boolean = mockMvc.perform(
+        val productFromApi: Product = mockMvc.perform(
             MockMvcRequestBuilders.delete("${endpointBase}/${product.name}")
         )
             .andExpect(status().is2xxSuccessful)
             .bodyTo(mapper)
 
-        assert(result)
+        assert(!productService.findAll().contains(productFromApi))
     }
 
     @Test
-    fun deleteByIdFail() {
+    fun deleteByIdEntityNotFound() {
         val product = Product(name = "Unavailable product", price = 123.45)
 
-        val result: Boolean = mockMvc.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.delete("${endpointBase}/${product.name}")
         )
-            .andExpect(status().isConflict)
-            .bodyTo(mapper)
-
-        assert(!result)
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.title", Matchers.`is`("EntityNotFoundException")))
+            .andExpect(jsonPath("$.message").exists())
     }
 }

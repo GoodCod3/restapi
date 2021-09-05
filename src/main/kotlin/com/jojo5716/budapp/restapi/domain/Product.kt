@@ -10,8 +10,6 @@ import javax.validation.constraints.Size
 @Entity
 data class Product(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Long = 0,
     @get:Size(min = 3, max = 50)
     var name: String,
     @get:Min(value = 0)
@@ -25,7 +23,7 @@ data class Product(
         if (this.javaClass != other.javaClass) return false
         other as Product
 
-        return this.id == other.id
+        return this.name == other.name
     }
 
     override fun hashCode(): Int {

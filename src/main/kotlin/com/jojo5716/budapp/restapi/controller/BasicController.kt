@@ -11,36 +11,24 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
     @ApiOperation("Get all entities")
     @GetMapping
     fun findAll(): ResponseEntity<List<T>> {
-        val entities = basicCRUD.findAll()
+        val entities = this.basicCRUD.findAll()
 
         return ResponseEntity.status(HttpStatus.OK).body(entities)
     }
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: ID): ResponseEntity<T> {
-        val entity = basicCRUD.findById(id)
+        val entity = this.basicCRUD.findById(id)
 
         return ResponseEntity.status(if (entity != null) HttpStatus.OK else HttpStatus.NO_CONTENT).body(entity)
     }
 
     @PostMapping
-    fun save(@Valid @RequestBody body: T): ResponseEntity<Boolean> {
-        val entity = basicCRUD.save(body)
-
-        return ResponseEntity.status(if (entity) HttpStatus.CREATED else HttpStatus.CONFLICT).body(entity)
-    }
+    fun save(@Valid @RequestBody body: T) = ResponseEntity.status(HttpStatus.CREATED).body(this.basicCRUD.save(body))
 
     @PutMapping
-    fun update(@RequestBody body: T): ResponseEntity<Boolean> {
-        val updated: Boolean = basicCRUD.update(body)
-
-        return ResponseEntity.status(if (updated) HttpStatus.OK else HttpStatus.CONFLICT).body(updated)
-    }
+    fun update(@RequestBody body: T) = this.basicCRUD.update(body)
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: ID): ResponseEntity<Boolean> {
-        val deleted: Boolean = basicCRUD.deleteById(id)
-
-        return ResponseEntity.status(if (deleted) HttpStatus.OK else HttpStatus.CONFLICT).body(deleted)
-    }
+    fun deleteById(@PathVariable id: ID) = this.basicCRUD.deleteById(id)
 }
