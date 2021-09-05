@@ -7,9 +7,7 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface ProductDAO : JpaRepository<Product, Int> {
-    fun existByName(name: String): Boolean
-}
+interface ProductDAO : JpaRepository<Product, Int>
 
 @Repository
 interface ProviderDAO : JpaRepository<Provider, Int>

@@ -36,9 +36,6 @@ class ProductService(val productDAO: ProductDAO) : BasicCRUD<Product, Int> {
     }
 
     override fun existByName(name: String): Boolean {
-        println("Exist!!!! jajaja")
-
         return true
-       //  return this.productDAO.existByName(name) || throw EntityNotFoundException("$name does not exist")
     }
 }
