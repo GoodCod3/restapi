@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
     @ApiOperation("Get all entities")
@@ -13,7 +14,6 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
         val entities = basicCRUD.findAll()
 
         return ResponseEntity.status(HttpStatus.OK).body(entities)
-
     }
 
     @GetMapping("/{id}")
@@ -21,11 +21,10 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
         val entity = basicCRUD.findById(id)
 
         return ResponseEntity.status(if (entity != null) HttpStatus.OK else HttpStatus.NO_CONTENT).body(entity)
-
     }
 
     @PostMapping
-    fun save(@RequestBody body: T): ResponseEntity<Boolean> {
+    fun save(@Valid @RequestBody body: T): ResponseEntity<Boolean> {
         val entity = basicCRUD.save(body)
 
         return ResponseEntity.status(if (entity) HttpStatus.CREATED else HttpStatus.CONFLICT).body(entity)
@@ -36,7 +35,6 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
         val updated: Boolean = basicCRUD.update(body)
 
         return ResponseEntity.status(if (updated) HttpStatus.OK else HttpStatus.CONFLICT).body(updated)
-
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +42,5 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
         val deleted: Boolean = basicCRUD.deleteById(id)
 
         return ResponseEntity.status(if (deleted) HttpStatus.OK else HttpStatus.CONFLICT).body(deleted)
-
     }
 }

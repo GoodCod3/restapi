@@ -1,23 +1,32 @@
 package com.jojo5716.budapp.restapi.service
 
+import com.jojo5716.budapp.restapi.dao.ProductDAO
 import com.jojo5716.budapp.restapi.domain.Product
 import com.jojo5716.budapp.restapi.utils.update
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.web.context.WebApplicationContext
 
 @Service
 class ProductService : BasicCRUD<Product, String> {
-    private val products: MutableSet<Product> = mutableSetOf(Product("Product 1", 22.2), Product("Product 2", 33.1))
 
-    override fun findAll(): List<Product> = products.toList()
+    @Autowired
+    private lateinit var productDao: ProductDAO
 
-    override fun findById(id: String): Product? {
-        // return this.products.find { it.name == id }
-        return this.products.find { product -> product.name == id }
+    override fun findAll(): List<Product> = this.productDao.findAll()
+
+    override fun findById(id: String): Product? = productDao.findByIdOrNull(id)
+
+    override fun save(t: Product): Boolean = this.productDao.save(t).let {
+        return true
     }
 
-    override fun save(t: Product): Boolean = this.products.add(t)
+    override fun update(t: Product): Boolean = this.productDao.save(t).let {
+        return true
+    }
 
-    override fun update(t: Product): Boolean = this.products.update(t)
-
-    override fun deleteById(id: String): Boolean = this.products.remove(this.findById(id))
+    override fun deleteById(id: String): Boolean = this.productDao.deleteById(id).let {
+        return true
+    }
 }

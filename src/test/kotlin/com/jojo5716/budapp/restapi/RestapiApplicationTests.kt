@@ -87,6 +87,19 @@ class RestapiApplicationTests {
     }
 
     @Test
+    fun saveFailIfNameAndPriceAreInvalid() {
+        val product = Product(name = "", price = -1000.0)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(endpointBase)
+                .body(product, mapper)
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.name").exists())
+            .andExpect(jsonPath("$.price").exists())
+    }
+
+    @Test
     fun saveFail() {
         val productsFromService: List<Product> = productService.findAll()
 
