@@ -18,8 +18,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import javax.transaction.Transactional
 
 @SpringBootTest
+@Transactional
 class RestapiApplicationTests {
     @Autowired
     private lateinit var webApplicationContext: WebApplicationContext
@@ -40,6 +42,7 @@ class RestapiApplicationTests {
     }
 
     private val endpointBase = "/api/v1/products"
+    private val H2_BACKUP_LOCATION = "/tmp/h2backup.sql"
 
     @Test
     fun findAll() {
@@ -78,8 +81,8 @@ class RestapiApplicationTests {
 
     @Test
     fun saveSuccessfully() {
-        val defaultProvider = providerService.save(Provider(name = "Default provider", email="default@provider.com"))
-        val product = Product(name = "Apple2", price = 1000.0, stock = 3, provider = defaultProvider)
+        val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
+        val product = Product(name = "AppleNew", price = 1000.0, stock = 3, provider = defaultProvider)
 
         val productFromApi: Product = mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -93,7 +96,7 @@ class RestapiApplicationTests {
 
     @Test
     fun saveFailIfNameAndPriceAreInvalid() {
-        val defaultProvider = providerService.save(Provider(name = "Default provider", email="default@provider.com"))
+        val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
         val product = Product(name = "", price = -1000.0, provider = defaultProvider)
 
         mockMvc.perform(
@@ -120,8 +123,27 @@ class RestapiApplicationTests {
             .andExpect(status().isBadRequest)
             .andExpect(jsonPath("$.title", Matchers.`is`("DuplicateKeyException")))
             .andExpect(jsonPath("$.message").exists())
+    }
 
+    @Test
+    fun saveProductWithInvalidProvider() {
+        val productsFromService: List<Product> = productService.findAll()
 
+        assert(!productsFromService.isEmpty()) { "Should not be empty" }
+
+        val product = Product(
+            name = "AppleTest",
+            price = 22.2,
+            stock = 4,
+            provider = Provider(id = 50, name = "Test", email = "test@test.com")
+        )
+        mockMvc.perform(
+            MockMvcRequestBuilders.post(endpointBase)
+                .body(data = product, mapper)
+        )
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.title", Matchers.`is`("JpaObjectRetrievalFailureException")))
+            .andExpect(jsonPath("$.message").exists())
     }
 
     @Test
@@ -142,7 +164,7 @@ class RestapiApplicationTests {
 
     @Test
     fun updateEntityNotFound() {
-        val defaultProvider = providerService.save(Provider(name = "Default provider", email="default@provider.com"))
+        val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
         val product = Product(name = "Unavailable product", price = 123.45, provider = defaultProvider)
 
         mockMvc.perform(
@@ -173,7 +195,7 @@ class RestapiApplicationTests {
 
     @Test
     fun deleteByIdEntityNotFound() {
-        val defaultProvider = providerService.save(Provider(name = "Default provider", email="default@provider.com"))
+        val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
         val product = Product(name = "Unavailable product", price = 123.45, provider = defaultProvider)
 
         mockMvc.perform(
