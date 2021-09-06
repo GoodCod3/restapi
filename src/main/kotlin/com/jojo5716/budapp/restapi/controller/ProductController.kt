@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.constraints.Min
 
 
-data class ProductBuyParams(
+data class ProductBuyRequestParams(
     @get:Min(1)
     var id: String = "",
     @get:Min(0)
@@ -19,9 +19,9 @@ data class ProductBuyParams(
 @RestController
 @RequestMapping("/api/v1/product")
 class ProductController(private val productService: ProductService) : BasicController<Product, String>(productService) {
-    @ApiOperation("Get all entities", notes = "Buy a product")
+    @ApiOperation("Buy a product", notes = "Buy a product if has a stock")
     @PostMapping("/buy/{id}")
-    fun buy(@RequestBody body: ProductBuyParams): ResponseEntity<Boolean> {
+    fun buy(@RequestBody body: ProductBuyRequestParams): ResponseEntity<Boolean> {
         productService.buy(body)
 
         return ResponseEntity.status(HttpStatus.OK).body(true)

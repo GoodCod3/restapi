@@ -2,8 +2,10 @@ package com.jojo5716.budapp.restapi
 
 import com.jojo5716.budapp.restapi.domain.Product
 import com.jojo5716.budapp.restapi.domain.Provider
+import com.jojo5716.budapp.restapi.domain.User
 import com.jojo5716.budapp.restapi.service.ProductService
 import com.jojo5716.budapp.restapi.service.ProviderService
+import com.jojo5716.budapp.restapi.service.UserService
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
@@ -11,13 +13,21 @@ import org.springframework.stereotype.Component
 @Component
 class OnBoot(
     private val productService: ProductService,
-    private val providerService: ProviderService
+    private val providerService: ProviderService,
+    private val userService: UserService
 ) : ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
         val defaultProvicer = Provider(id = 1, name = "Default provider", email = "default@provider.com")
+        val defaultUser = User(name = "Default user", email = "default@user.com")
+
         if (!providerService.providerDAO.existsById(defaultProvicer.id)) {
             providerService.save(defaultProvicer)
         }
+
+        if (!userService.userDAO.existsByEmail(defaultUser.email)) {
+            userService.save(defaultUser)
+        }
+
         listOf(
             Product(name = "Product 1", price = 0.0, stock = 1, provider = defaultProvicer),
             Product(name = "Product 2", price = 0.0, stock = 1, provider = defaultProvicer)

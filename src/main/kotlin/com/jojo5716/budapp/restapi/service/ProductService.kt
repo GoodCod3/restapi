@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.service
 
-import com.jojo5716.budapp.restapi.controller.ProductBuyParams
+import com.jojo5716.budapp.restapi.controller.ProductBuyRequestParams
 import com.jojo5716.budapp.restapi.dao.ProductDAO
 import com.jojo5716.budapp.restapi.domain.Product
 import org.springframework.dao.DuplicateKeyException
@@ -10,7 +10,6 @@ import javax.persistence.EntityNotFoundException
 
 @Service
 class ProductService(val productDAO: ProductDAO) : BasicCRUD<Product, String> {
-
     override fun findAll(): List<Product> = this.productDAO.findAll()
 
     override fun findById(id: String): Product? = this.productDAO.findByIdOrNull(id)
@@ -33,10 +32,10 @@ class ProductService(val productDAO: ProductDAO) : BasicCRUD<Product, String> {
     override fun deleteById(id: String): Product {
         return this.findById(id)?.apply {
             this@ProductService.productDAO.deleteById(id)
-        } ?: throw EntityNotFoundException("${id} does not exist")
+        } ?: throw EntityNotFoundException("$id does not exist")
     }
 
-    fun buy(body: ProductBuyParams): Product {
+    fun buy(body: ProductBuyRequestParams): Product {
         val product = this.findById(body.id)
         if (product != null && product.stock >= body.stock) {
             product.stock -= body.stock
