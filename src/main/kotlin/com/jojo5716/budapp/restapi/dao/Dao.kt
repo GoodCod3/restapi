@@ -1,5 +1,6 @@
 package com.jojo5716.budapp.restapi.dao
 
+import com.jojo5716.budapp.restapi.domain.DispensarySetting
 import com.jojo5716.budapp.restapi.domain.Product
 import com.jojo5716.budapp.restapi.domain.Provider
 import com.jojo5716.budapp.restapi.domain.User
@@ -18,3 +19,6 @@ interface UserDAO : JpaRepository<User, Int> {
     fun existsByEmail(email: String): Boolean
     // fun findByEmailAndName(email: String): User
 }
+
+@Repository
+interface DispensarySettingDAO : JpaRepository<DispensarySetting, Int>
