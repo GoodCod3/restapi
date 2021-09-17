@@ -31,6 +31,6 @@ class DispensarySettingService(val dispensarySettingDAO: DispensarySettingDAO) :
     override fun deleteById(id: Int): DispensarySetting {
         return this.findById(id)?.apply {
             this@DispensarySettingService.dispensarySettingDAO.deleteById(id)
-        } ?: throw EntityNotFoundException("${id} does not exist")
+        } ?: throw EntityNotFoundException("$id does not exist")
     }
 }

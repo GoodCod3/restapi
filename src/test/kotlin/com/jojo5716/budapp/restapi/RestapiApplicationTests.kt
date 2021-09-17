@@ -86,7 +86,6 @@ class RestapiApplicationTests {
             price = 1000.0,
             stock = 3.0,
             provider = defaultProvider,
-            dispensaryGeneticProductProfile = null
         )
 
         val productFromApi: Product = mockMvc.perform(
@@ -96,14 +95,14 @@ class RestapiApplicationTests {
             .andExpect(status().isCreated)
             .bodyTo(mapper)
 
-        assertThat(productService.findById(product.name), Matchers.`is`(productFromApi))
+        assertThat(productService.findById(product.id), Matchers.`is`(productFromApi))
     }
 
     @Test
     fun saveFailIfNameAndPriceAreInvalid() {
         val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
         val product =
-            Product(name = "", price = -1000.0, provider = defaultProvider, dispensaryGeneticProductProfile = null)
+            Product(name = "", price = -1000.0, provider = defaultProvider)
 
         mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -142,7 +141,6 @@ class RestapiApplicationTests {
             price = 22.2,
             stock = 4.0,
             provider = Provider(id = 50, name = "Test", email = "test@test.com"),
-            dispensaryGeneticProductProfile = null
         )
         mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -176,7 +174,6 @@ class RestapiApplicationTests {
             name = "Unavailable product",
             price = 123.45,
             provider = defaultProvider,
-            dispensaryGeneticProductProfile = null
         )
 
         mockMvc.perform(
@@ -212,7 +209,6 @@ class RestapiApplicationTests {
             name = "Unavailable product",
             price = 123.45,
             provider = defaultProvider,
-            dispensaryGeneticProductProfile = null
         )
 
         mockMvc.perform(

@@ -1,7 +1,6 @@
 package com.jojo5716.budapp.restapi.service
 
 import com.jojo5716.budapp.restapi.dao.UserDAO
-import com.jojo5716.budapp.restapi.domain.Provider
 import com.jojo5716.budapp.restapi.domain.User
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.repository.findByIdOrNull

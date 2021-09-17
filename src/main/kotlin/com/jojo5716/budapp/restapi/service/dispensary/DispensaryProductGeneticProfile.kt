@@ -33,6 +33,6 @@ class DispensaryProductGeneticProfileService(val dispensaryProductGeneticProfile
     override fun deleteById(id: Int): DispensaryProductGeneticProfile {
         return this.findById(id)?.apply {
             this@DispensaryProductGeneticProfileService.dispensaryProductGeneticProfileDAO.deleteById(id)
-        } ?: throw EntityNotFoundException("${id} does not exist")
+        } ?: throw EntityNotFoundException("$id does not exist")
     }
 }

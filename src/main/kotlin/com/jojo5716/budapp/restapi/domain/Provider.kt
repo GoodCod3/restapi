@@ -29,4 +29,9 @@ data class Provider(
     override fun hashCode(): Int {
         return name.hashCode()
     }
+
+    @Override
+    override fun toString(): String {
+        return this::class.simpleName + "(name = $name - id: $id)"
+    }
 }

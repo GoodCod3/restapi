@@ -31,6 +31,6 @@ class ProviderService(val providerDAO: ProviderDAO) : BasicCRUD<Provider, Int> {
     override fun deleteById(id: Int): Provider {
         return this.findById(id)?.apply {
             this@ProviderService.providerDAO.deleteById(id)
-        } ?: throw EntityNotFoundException("${id} does not exist")
+        } ?: throw EntityNotFoundException("$id does not exist")
     }
 }

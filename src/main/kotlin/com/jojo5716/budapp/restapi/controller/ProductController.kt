@@ -15,7 +15,7 @@ import javax.validation.constraints.Size
 
 data class ProductBuyRequestParams(
     @get:Min(1)
-    var id: String = "",
+    var id: Int = 0,
     @get:Min(0)
     var stock: Int,
 )
@@ -38,7 +38,7 @@ data class ProductCreateRequestParams(
 
 @RestController
 @RequestMapping("/api/v1/product")
-class ProductController(private val productService: ProductService) : BasicController<Product, String>(productService) {
+class ProductController(private val productService: ProductService) : BasicController<Product, Int>(productService) {
     @ApiOperation("Create a product", notes = "Return a product")
     @PostMapping
     override fun save(@Valid @RequestBody body: Product): ResponseEntity<Product> {
@@ -49,7 +49,6 @@ class ProductController(private val productService: ProductService) : BasicContr
             price = 0.0,
             stock = 1.0,
             provider = body.provider,
-            dispensaryGeneticProductProfile = null
         )
         val product = productService.save(productObject)
         return ResponseEntity.status(HttpStatus.CREATED).body(product)

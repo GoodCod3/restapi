@@ -1,13 +1,7 @@
 package com.jojo5716.budapp.restapi
 
-import com.jojo5716.budapp.restapi.domain.DispensarySetting
-import com.jojo5716.budapp.restapi.domain.Product
-import com.jojo5716.budapp.restapi.domain.Provider
-import com.jojo5716.budapp.restapi.domain.User
-import com.jojo5716.budapp.restapi.service.DispensarySettingService
-import com.jojo5716.budapp.restapi.service.ProductService
-import com.jojo5716.budapp.restapi.service.ProviderService
-import com.jojo5716.budapp.restapi.service.UserService
+import com.jojo5716.budapp.restapi.domain.*
+import com.jojo5716.budapp.restapi.service.*
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
@@ -19,6 +13,7 @@ class OnBoot(
     private val providerService: ProviderService,
     private val userService: UserService,
     private val dispensarySettingService: DispensarySettingService,
+    private val dispensaryProductGeneticProfileService: DispensaryProductGeneticProfileService
 ) : ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
         val defaultProvider: Provider = createProviderIsNeeded()
@@ -27,7 +22,9 @@ class OnBoot(
 
         createProductsIfNeeded(defaultProvider)
 
-        createDispensarySettingsIfNeeded(defaultProvider)
+        createDispensarySettingsIfNeeded()
+
+        createDispensaryProductGeneticProfileIfNeeded()
     }
 
     fun createProviderIsNeeded(): Provider {
@@ -57,17 +54,15 @@ class OnBoot(
                 price = 0.0,
                 stock = 1.0,
                 provider = provider,
-                dispensaryGeneticProductProfile = null
             ),
             Product(
                 name = "Product 2",
                 price = 0.0,
                 stock = 1.0,
                 provider = provider,
-                dispensaryGeneticProductProfile = null
             )
         ).forEach {
-            if (!productService.productDAO.existsById(it.name)) {
+            if (!productService.productDAO.existsById(it.id)) {
                 println("Saving ${it.name}")
 
                 productService.save(it)
@@ -75,7 +70,7 @@ class OnBoot(
         }
     }
 
-    fun createDispensarySettingsIfNeeded(provider: Provider) {
+    fun createDispensarySettingsIfNeeded() {
         listOf(
             DispensarySetting(name = "Dispensary test"),
         ).forEach {
@@ -85,5 +80,24 @@ class OnBoot(
                 dispensarySettingService.save(it)
             }
         }
+    }
+
+    fun createDispensaryProductGeneticProfileIfNeeded() {
+        productService.findById(1)?.let { it ->
+            println(it)
+            listOf(
+                DispensaryProductGeneticProfile(product = it, thc = 12.2),
+            ).forEach {
+                if (!dispensaryProductGeneticProfileService.dispensaryProductGeneticProfileDAO.existsById(it.id)) {
+                    println("Saving profile for ${it.product.name} - THC: ${it.thc}")
+
+                    dispensaryProductGeneticProfileService.save(it)
+                } else {
+                    println("ELSE")
+                    println("\t\t $it")
+                }
+            }
+        }
+
     }
 }
