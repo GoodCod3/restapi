@@ -42,7 +42,6 @@ class RestapiApplicationTests {
     }
 
     private val endpointBase = "/api/v1/products"
-    private val H2_BACKUP_LOCATION = "/tmp/h2backup.sql"
 
     @Test
     fun findAll() {
@@ -82,7 +81,13 @@ class RestapiApplicationTests {
     @Test
     fun saveSuccessfully() {
         val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
-        val product = Product(name = "AppleNew", price = 1000.0, stock = 3, provider = defaultProvider)
+        val product = Product(
+            name = "AppleNew",
+            price = 1000.0,
+            stock = 3.0,
+            provider = defaultProvider,
+            dispensaryGeneticProductProfile = null
+        )
 
         val productFromApi: Product = mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -97,7 +102,8 @@ class RestapiApplicationTests {
     @Test
     fun saveFailIfNameAndPriceAreInvalid() {
         val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
-        val product = Product(name = "", price = -1000.0, provider = defaultProvider)
+        val product =
+            Product(name = "", price = -1000.0, provider = defaultProvider, dispensaryGeneticProductProfile = null)
 
         mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -134,8 +140,9 @@ class RestapiApplicationTests {
         val product = Product(
             name = "AppleTest",
             price = 22.2,
-            stock = 4,
-            provider = Provider(id = 50, name = "Test", email = "test@test.com")
+            stock = 4.0,
+            provider = Provider(id = 50, name = "Test", email = "test@test.com"),
+            dispensaryGeneticProductProfile = null
         )
         mockMvc.perform(
             MockMvcRequestBuilders.post(endpointBase)
@@ -165,7 +172,12 @@ class RestapiApplicationTests {
     @Test
     fun updateEntityNotFound() {
         val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
-        val product = Product(name = "Unavailable product", price = 123.45, provider = defaultProvider)
+        val product = Product(
+            name = "Unavailable product",
+            price = 123.45,
+            provider = defaultProvider,
+            dispensaryGeneticProductProfile = null
+        )
 
         mockMvc.perform(
             MockMvcRequestBuilders.put(endpointBase)
@@ -196,7 +208,12 @@ class RestapiApplicationTests {
     @Test
     fun deleteByIdEntityNotFound() {
         val defaultProvider = providerService.save(Provider(name = "Default provider", email = "default@provider.com"))
-        val product = Product(name = "Unavailable product", price = 123.45, provider = defaultProvider)
+        val product = Product(
+            name = "Unavailable product",
+            price = 123.45,
+            provider = defaultProvider,
+            dispensaryGeneticProductProfile = null
+        )
 
         mockMvc.perform(
             MockMvcRequestBuilders.delete("${endpointBase}/${product.name}")

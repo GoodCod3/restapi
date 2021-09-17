@@ -22,7 +22,7 @@ class Swagger {
         .apis(RequestHandlerSelectors.basePackage(RestapiApplication::class.java.`package`.name))
         .paths(PathSelectors.any())
         .build()
-        .apiInfo(getApiInfo());
+        .apiInfo(getApiInfo())
 
     private fun getApiInfo(): ApiInfo {
         return ApiInfoBuilder()

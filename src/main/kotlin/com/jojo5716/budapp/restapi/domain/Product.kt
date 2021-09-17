@@ -10,11 +10,13 @@ data class Product(
     @get:Size(min = 3, max = 50)
     var name: String,
     @get:Min(value = 0)
-    var price: Double? = 0.0,
+    var price: Double = 0.0,
     @get:Min(value = 0)
-    var stock: Int = 0,
+    var stock: Double = 0.0,
     @ManyToOne
-    var provider: Provider
+    var provider: Provider,
+    @OneToOne
+    var dispensaryGeneticProductProfile: DispensaryGeneticProductProfile?,
 ) {
     override fun equals(other: Any?): Boolean {
         other ?: return false

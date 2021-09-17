@@ -52,8 +52,20 @@ class OnBoot(
 
     fun createProductsIfNeeded(provider: Provider) {
         listOf(
-            Product(name = "Product 1", price = 0.0, stock = 1, provider = provider),
-            Product(name = "Product 2", price = 0.0, stock = 1, provider = provider)
+            Product(
+                name = "Product 1",
+                price = 0.0,
+                stock = 1.0,
+                provider = provider,
+                dispensaryGeneticProductProfile = null
+            ),
+            Product(
+                name = "Product 2",
+                price = 0.0,
+                stock = 1.0,
+                provider = provider,
+                dispensaryGeneticProductProfile = null
+            )
         ).forEach {
             if (!productService.productDAO.existsById(it.name)) {
                 println("Saving ${it.name}")

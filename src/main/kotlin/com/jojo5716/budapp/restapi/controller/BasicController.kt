@@ -26,7 +26,7 @@ abstract class BasicController<T, ID>(private val basicCRUD: BasicCRUD<T, ID>) {
 
     @ApiOperation("Create a entity", notes = "Return an entity")
     @PostMapping
-    fun save(@Valid @RequestBody body: T) = ResponseEntity.status(HttpStatus.CREATED).body(this.basicCRUD.save(body))
+    open fun save(@Valid @RequestBody body: T) = ResponseEntity.status(HttpStatus.CREATED).body(this.basicCRUD.save(body))
 
     @ApiOperation("Update an entity if it id is found", notes = "Return an entity")
     @PutMapping

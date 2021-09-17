@@ -99,7 +99,8 @@
 						<plugin>spring</plugin>
 						<plugin>jpa</plugin>
 					</compilerPlugins>
-				</configuration>
+                    <languageVersion>1.6</languageVersion>
+                </configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.jetbrains.kotlin</groupId>
