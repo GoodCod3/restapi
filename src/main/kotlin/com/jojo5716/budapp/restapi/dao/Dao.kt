@@ -19,3 +19,6 @@ interface UserDAO : JpaRepository<User, Int> {
 
 @Repository
 interface DispensarySettingDAO : JpaRepository<DispensarySetting, Int>
+
+@Repository
+interface DispensaryProductGeneticProfileDAO : JpaRepository<DispensaryProductGeneticProfile, Int>

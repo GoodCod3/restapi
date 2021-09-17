@@ -1,6 +1,5 @@
 package com.jojo5716.budapp.restapi.controller
 
-import com.jojo5716.budapp.restapi.domain.DispensaryGeneticProductProfile
 import com.jojo5716.budapp.restapi.domain.Product
 import com.jojo5716.budapp.restapi.domain.Provider
 import com.jojo5716.budapp.restapi.service.ProductService
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.persistence.ManyToOne
-import javax.persistence.OneToOne
 import javax.validation.Valid
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size

@@ -16,7 +16,7 @@ data class Product(
     @ManyToOne
     var provider: Provider,
     @OneToOne
-    var dispensaryGeneticProductProfile: DispensaryGeneticProductProfile?,
+    var dispensaryGeneticProductProfile: DispensaryProductGeneticProfile?,
 ) {
     override fun equals(other: Any?): Boolean {
         other ?: return false
