@@ -92,12 +92,10 @@ class OnBoot(
         productService.findById(1)?.let { it ->
             println(it)
             listOf(
-//                DispensaryProductGeneticProfile(product = it, thc = 12.2),
-                DispensaryProductGeneticProfile(thc = 12.2),
+                DispensaryProductGeneticProfile(product = it, thc = 12.2),
             ).forEach {
                 if (!dispensaryProductGeneticProfileService.dispensaryProductGeneticProfileDAO.existsById(it.id)) {
-//                    println("Saving profile for ${it.product.name} - THC: ${it.thc}")
-                    println("Saving profile for ${it.id} - THC: ${it.thc}")
+                    println("Saving profile for ${it.product.name} - THC: ${it.thc}")
 
                     dispensaryProductGeneticProfileService.save(it)
                 } else {
