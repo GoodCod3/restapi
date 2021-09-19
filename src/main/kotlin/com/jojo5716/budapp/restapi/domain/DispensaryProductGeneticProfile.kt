@@ -11,22 +11,25 @@ data class DispensaryProductGeneticProfile(
     var id: Int = 0,
     @get:Min(value = 0)
     var thc: Double,
-    @OneToOne
-    var product: Product,
-){
+//    @OneToOne
+//    var product: Product,
+) {
     override fun equals(other: Any?): Boolean {
         other ?: return false
         if (other === this) return true
         if (this.javaClass != other.javaClass) return false
         other as DispensaryProductGeneticProfile
-
-        return this.product == other.product && id == other.id
+        return this.id == other.id
+//        return this.product == other.product && id == other.id
     }
 
-    override fun hashCode(): Int = 0
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
 
     @Override
     override fun toString(): String {
-        return this::class.simpleName + "(product = $product - THC: $thc)"
+//        return this::class.simpleName + "(product = $product - THC: $thc)"
+        return this::class.simpleName + "(product = $id - THC: $thc)"
     }
 }
