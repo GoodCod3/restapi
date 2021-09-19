@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.service
+package com.jojo5716.budapp.restapi.services
 
 interface BasicCRUD<T, ID> {
     fun findAll(): List<T>

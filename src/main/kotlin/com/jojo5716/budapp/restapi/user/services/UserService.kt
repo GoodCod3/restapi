@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.user.services
 
-import com.jojo5716.budapp.restapi.service.BasicCRUD
+import com.jojo5716.budapp.restapi.services.BasicCRUD
 import com.jojo5716.budapp.restapi.user.repositories.UserDAO
 import com.jojo5716.budapp.restapi.user.entities.User
 import org.springframework.dao.DuplicateKeyException

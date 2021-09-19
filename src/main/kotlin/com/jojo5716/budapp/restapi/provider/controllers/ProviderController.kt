@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.provider.controllers
 
-import com.jojo5716.budapp.restapi.controller.BasicController
+import com.jojo5716.budapp.restapi.controllers.BasicController
 import com.jojo5716.budapp.restapi.provider.entities.Provider
 import com.jojo5716.budapp.restapi.provider.services.ProviderService
 import org.springframework.web.bind.annotation.*

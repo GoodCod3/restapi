@@ -3,7 +3,7 @@ package com.jojo5716.budapp.restapi.product.services
 import com.jojo5716.budapp.restapi.product.entities.Product
 import com.jojo5716.budapp.restapi.product.repositories.ProductDAO
 import com.jojo5716.budapp.restapi.product.requests.ProductBuyRequestParams
-import com.jojo5716.budapp.restapi.service.BasicCRUD
+import com.jojo5716.budapp.restapi.services.BasicCRUD
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.service
+package com.jojo5716.budapp.restapi.services
 
 import com.jojo5716.budapp.restapi.dispensary.repositories.DispensaryProductGeneticProfileDAO
 import com.jojo5716.budapp.restapi.dispensary.entities.DispensaryProductGeneticProfile

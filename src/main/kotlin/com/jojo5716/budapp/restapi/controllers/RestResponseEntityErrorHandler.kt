@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.controller
+package com.jojo5716.budapp.restapi.controllers
 
 import com.jojo5716.budapp.restapi.dto.ApiResponse
 import org.springframework.dao.DuplicateKeyException
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
-import java.io.FileNotFoundException
 import javax.persistence.EntityNotFoundException
 
 @ControllerAdvice

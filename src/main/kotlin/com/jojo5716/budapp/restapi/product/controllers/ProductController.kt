@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.controller
+package com.jojo5716.budapp.restapi.controllers
 
 import com.jojo5716.budapp.restapi.product.entities.Product
 import com.jojo5716.budapp.restapi.product.requests.ProductBuyRequestParams

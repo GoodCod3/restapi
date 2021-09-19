@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.domain
+package com.jojo5716.budapp.restapi.purchase.entities
 
 import com.jojo5716.budapp.restapi.product.entities.Product
 import javax.persistence.*

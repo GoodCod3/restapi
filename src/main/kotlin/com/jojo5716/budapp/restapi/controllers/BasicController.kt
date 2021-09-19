@@ -1,6 +1,6 @@
-package com.jojo5716.budapp.restapi.controller
+package com.jojo5716.budapp.restapi.controllers
 
-import com.jojo5716.budapp.restapi.service.BasicCRUD
+import com.jojo5716.budapp.restapi.services.BasicCRUD
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
