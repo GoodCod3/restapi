@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.service
 
-import com.jojo5716.budapp.restapi.dao.DispensarySettingDAO
+import com.jojo5716.budapp.restapi.dispensary.repositories.DispensarySettingDAO
 import com.jojo5716.budapp.restapi.domain.DispensarySetting
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.repository.findByIdOrNull

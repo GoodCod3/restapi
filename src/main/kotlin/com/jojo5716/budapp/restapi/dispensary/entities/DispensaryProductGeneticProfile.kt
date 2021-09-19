@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.domain
+package com.jojo5716.budapp.restapi.dispensary.entities
 
 import javax.persistence.*
 import javax.validation.constraints.Min

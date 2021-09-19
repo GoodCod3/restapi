@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.controller
 
-import com.jojo5716.budapp.restapi.domain.DispensaryProductGeneticProfile
+import com.jojo5716.budapp.restapi.dispensary.entities.DispensaryProductGeneticProfile
 import com.jojo5716.budapp.restapi.domain.DispensarySetting
 import com.jojo5716.budapp.restapi.service.DispensaryProductGeneticProfileService
 import com.jojo5716.budapp.restapi.service.DispensarySettingService

@@ -1,7 +1,7 @@
 package com.jojo5716.budapp.restapi.service
 
-import com.jojo5716.budapp.restapi.dao.DispensaryProductGeneticProfileDAO
-import com.jojo5716.budapp.restapi.domain.DispensaryProductGeneticProfile
+import com.jojo5716.budapp.restapi.dispensary.repositories.DispensaryProductGeneticProfileDAO
+import com.jojo5716.budapp.restapi.dispensary.entities.DispensaryProductGeneticProfile
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
