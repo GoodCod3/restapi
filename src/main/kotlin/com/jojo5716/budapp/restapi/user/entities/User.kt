@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.domain
+package com.jojo5716.budapp.restapi.user.entities
 
 import javax.persistence.*
 import javax.validation.constraints.Email

@@ -6,6 +6,8 @@ import com.jojo5716.budapp.restapi.product.services.ProductService
 import com.jojo5716.budapp.restapi.provider.entities.Provider
 import com.jojo5716.budapp.restapi.provider.services.ProviderService
 import com.jojo5716.budapp.restapi.service.*
+import com.jojo5716.budapp.restapi.user.entities.User
+import com.jojo5716.budapp.restapi.user.services.UserService
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.stereotype.Component
