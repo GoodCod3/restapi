@@ -3,9 +3,9 @@ package com.jojo5716.budapp.restapi
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.jojo5716.budapp.restapi.product.entities.Product
-import com.jojo5716.budapp.restapi.domain.Provider
+import com.jojo5716.budapp.restapi.provider.entities.Provider
 import com.jojo5716.budapp.restapi.product.services.ProductService
-import com.jojo5716.budapp.restapi.service.ProviderService
+import com.jojo5716.budapp.restapi.provider.services.ProviderService
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Test

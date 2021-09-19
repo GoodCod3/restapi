@@ -1,6 +1,6 @@
 package com.jojo5716.budapp.restapi.product.requests
 
-import com.jojo5716.budapp.restapi.domain.Provider
+import com.jojo5716.budapp.restapi.provider.entities.Provider
 import javax.persistence.ManyToOne
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size

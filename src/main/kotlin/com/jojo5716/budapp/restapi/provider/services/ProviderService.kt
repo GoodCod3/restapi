@@ -1,7 +1,8 @@
-package com.jojo5716.budapp.restapi.service
+package com.jojo5716.budapp.restapi.provider.services
 
-import com.jojo5716.budapp.restapi.dao.ProviderDAO
-import com.jojo5716.budapp.restapi.domain.Provider
+import com.jojo5716.budapp.restapi.provider.repositories.ProviderDAO
+import com.jojo5716.budapp.restapi.provider.entities.Provider
+import com.jojo5716.budapp.restapi.service.BasicCRUD
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

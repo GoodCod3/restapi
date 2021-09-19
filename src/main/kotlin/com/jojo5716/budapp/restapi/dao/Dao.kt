@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository
 
 
 @Repository
-interface ProviderDAO : JpaRepository<Provider, Int>
-
-@Repository
 interface UserDAO : JpaRepository<User, Int> {
     fun existsByEmail(email: String): Boolean
     // fun findByEmailAndName(email: String): User

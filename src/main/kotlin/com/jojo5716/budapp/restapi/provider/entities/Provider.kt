@@ -1,4 +1,4 @@
-package com.jojo5716.budapp.restapi.domain
+package com.jojo5716.budapp.restapi.provider.entities
 
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
