@@ -1,5 +1,6 @@
 package com.jojo5716.budapp.restapi.domain
 
+import com.jojo5716.budapp.restapi.product.entities.Product
 import javax.persistence.*
 
 @Entity

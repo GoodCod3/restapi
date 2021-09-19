@@ -1,40 +1,17 @@
 package com.jojo5716.budapp.restapi.controller
 
-import com.jojo5716.budapp.restapi.domain.Product
-import com.jojo5716.budapp.restapi.domain.Provider
-import com.jojo5716.budapp.restapi.service.ProductService
+import com.jojo5716.budapp.restapi.product.entities.Product
+import com.jojo5716.budapp.restapi.product.requests.ProductBuyRequestParams
+import com.jojo5716.budapp.restapi.product.services.ProductService
 import io.swagger.annotations.ApiOperation
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import javax.persistence.ManyToOne
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
-import javax.validation.constraints.Min
-import javax.validation.constraints.Size
 
-
-data class ProductBuyRequestParams(
-    @get:Min(1)
-    var id: Int = 0,
-    @get:Min(0)
-    var stock: Int,
-)
-
-data class ProductCreateRequestParams(
-    @get:Size(min = 3, max = 50)
-    var name: String,
-
-    @get:Min(0)
-    var price: Double = 0.0,
-
-    @get:Min(value = 0)
-    var stock: Double = 0.0,
-
-    @ManyToOne
-    var provider: Provider,
-
-    var is_genetic: Boolean = false,
-)
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -44,7 +21,7 @@ class ProductController(private val productService: ProductService) : BasicContr
     override fun save(@Valid @RequestBody body: Product): ResponseEntity<Product> {
         println("Creating product...")
         println(body)
-        val productObject =  Product(
+        val productObject = Product(
             name = "Product 2",
             price = 0.0,
             stock = 1.0,
