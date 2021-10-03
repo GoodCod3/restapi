@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1ecdy42" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.10.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1pl3vhn" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1gtjetc</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ModelNameExistService" name="Validate if model name exist" camunda:type="external" camunda:topic="ModelNameExistService">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="model_fields">
+            <camunda:list />
+          </camunda:inputParameter>
+          <camunda:inputParameter name="model_name" />
+          <camunda:outputParameter name="is_model_exist" />
+          <camunda:outputParameter name="model_fields" />
+          <camunda:outputParameter name="model_name" />
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1gtjetc</bpmn:incoming>
+      <bpmn:outgoing>Flow_00bubwv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ModelNameExistGateway" name="Model name exist">
+      <bpmn:incoming>Flow_00bubwv</bpmn:incoming>
+      <bpmn:outgoing>ModelNameExistGatewayFlowNo</bpmn:outgoing>
+      <bpmn:outgoing>ModelNameExistGatewayFlowYes</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1gtjetc" sourceRef="StartEvent_1" targetRef="ModelNameExistService" />
+    <bpmn:sequenceFlow id="Flow_00bubwv" sourceRef="ModelNameExistService" targetRef="ModelNameExistGateway" />
+    <bpmn:endEvent id="Event_193q84f">
+      <bpmn:incoming>Flow_0eoz5m0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="ModelNameExistGatewayFlowNo" name="No" sourceRef="ModelNameExistGateway" targetRef="CreateModelInstanceService">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${is_model_exist == "false"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:serviceTask id="CreateModelInstanceService" name="Create model instance" camunda:type="external" camunda:topic="CreateModelInstanceService">
+      <bpmn:incoming>ModelNameExistGatewayFlowNo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1f8ce2r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="CreateActionLogService" name="Create action log" camunda:type="external" camunda:topic="CreateActionLogService">
+      <bpmn:incoming>Flow_1f8ce2r</bpmn:incoming>
+      <bpmn:outgoing>Flow_0lunhur</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1f8ce2r" sourceRef="CreateModelInstanceService" targetRef="CreateActionLogService" />
+    <bpmn:serviceTask id="SendSlackMessageService" name="Send slack message" camunda:type="external" camunda:topic="SendSlackMessageService">
+      <bpmn:incoming>Flow_0lunhur</bpmn:incoming>
+      <bpmn:incoming>ModelNameExistGatewayFlowYes</bpmn:incoming>
+      <bpmn:outgoing>Flow_0eoz5m0</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0eoz5m0" sourceRef="SendSlackMessageService" targetRef="Event_193q84f" />
+    <bpmn:sequenceFlow id="Flow_0lunhur" sourceRef="CreateActionLogService" targetRef="SendSlackMessageService" />
+    <bpmn:sequenceFlow id="ModelNameExistGatewayFlowYes" name="Yes" sourceRef="ModelNameExistGateway" targetRef="SendSlackMessageService">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${is_model_exist == "true"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:textAnnotation id="CreateActionLogServiceText">
+      <bpmn:text>Register the create model action (User, time)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1t1tane" sourceRef="CreateActionLogService" targetRef="CreateActionLogServiceText" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1pl3vhn">
+      <bpmndi:BPMNShape id="TextAnnotation_0t1rntk_di" bpmnElement="CreateActionLogServiceText">
+        <dc:Bounds x="670" y="80" width="160" height="53" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1gtjetc_di" bpmnElement="Flow_1gtjetc">
+        <di:waypoint x="188" y="397" />
+        <di:waypoint x="350" y="397" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00bubwv_di" bpmnElement="Flow_00bubwv">
+        <di:waypoint x="450" y="397" />
+        <di:waypoint x="525" y="397" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1i807et_di" bpmnElement="ModelNameExistGatewayFlowNo">
+        <di:waypoint x="550" y="372" />
+        <di:waypoint x="550" y="270" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="558" y="303" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1f8ce2r_di" bpmnElement="Flow_1f8ce2r">
+        <di:waypoint x="600" y="230" />
+        <di:waypoint x="620" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0eoz5m0_di" bpmnElement="Flow_0eoz5m0">
+        <di:waypoint x="790" y="397" />
+        <di:waypoint x="1012" y="397" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0lunhur_di" bpmnElement="Flow_0lunhur">
+        <di:waypoint x="720" y="230" />
+        <di:waypoint x="740" y="230" />
+        <di:waypoint x="740" y="357" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1mv3ng7_di" bpmnElement="ModelNameExistGatewayFlowYes">
+        <di:waypoint x="575" y="397" />
+        <di:waypoint x="690" y="397" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="624" y="379" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Activity_0190r9r_di" bpmnElement="ModelNameExistService">
+        <dc:Bounds x="350" y="357" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0s31luv_di" bpmnElement="ModelNameExistGateway" isMarkerVisible="true">
+        <dc:Bounds x="525" y="372" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="508" y="429" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="379" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0cyjit4_di" bpmnElement="CreateModelInstanceService">
+        <dc:Bounds x="500" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qw6mhk_di" bpmnElement="CreateActionLogService">
+        <dc:Bounds x="620" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_021ngzy_di" bpmnElement="SendSlackMessageService">
+        <dc:Bounds x="690" y="357" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_193q84f_di" bpmnElement="Event_193q84f">
+        <dc:Bounds x="1012" y="379" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1t1tane_di" bpmnElement="Association_1t1tane">
+        <di:waypoint x="685" y="190" />
+        <di:waypoint x="706" y="133" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
