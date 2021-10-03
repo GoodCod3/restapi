@@ -1,6 +1,7 @@
 package com.jojo5716.budapp.restapi.controllers
 
 import com.jojo5716.budapp.restapi.product.entities.Product
+import com.jojo5716.budapp.restapi.product.requests.CreateProductRequest
 import com.jojo5716.budapp.restapi.product.requests.ProductBuyRequestParams
 import com.jojo5716.budapp.restapi.product.services.ProductService
 import io.swagger.annotations.ApiOperation
@@ -12,24 +13,28 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
+interface IProduct<T> {
+    fun save(t: T): ResponseEntity<T>
+}
 
 @RestController
 @RequestMapping("/api/v1/product")
-class ProductController(private val productService: ProductService) : BasicController<Product, Int>(productService) {
-    @ApiOperation("Create a product", notes = "Return a product")
-    @PostMapping
-    override fun save(@Valid @RequestBody body: Product): ResponseEntity<Product> {
-        println("Creating product...")
-        println(body)
-        val productObject = Product(
-            name = "Product 2",
-            price = 0.0,
-            stock = 1.0,
-            provider = body.provider,
-        )
-        val product = productService.save(productObject)
-        return ResponseEntity.status(HttpStatus.CREATED).body(product)
-    }
+class ProductController(private val productService: ProductService) : BasicController<Product, Int>(productService),
+    IProduct<CreateProductRequest> {
+//    @ApiOperation("Create a product", notes = "Return a product")
+//    @PostMapping
+//    override fun save(@Valid @RequestBody body: Product): ResponseEntity<Product> {
+//        println("Creating product...")
+//        println(body)
+//        val productObject = Product(
+//            name = "Product 2",
+//            price = 0.0,
+//            stock = 1.0,
+//            provider = body.provider,
+//        )
+//        val product = productService.save(productObject)
+//        return ResponseEntity.status(HttpStatus.CREATED).body(product)
+//    }
 
 
     @ApiOperation("Buy a product", notes = "Buy a product if has a stock")
@@ -38,5 +43,14 @@ class ProductController(private val productService: ProductService) : BasicContr
         productService.buy(body)
 
         return ResponseEntity.status(HttpStatus.OK).body(true)
+    }
+
+    @ApiOperation("Create a product", notes = "Return a product")
+    @PostMapping
+    override fun save(t: CreateProductRequest): ResponseEntity<CreateProductRequest> {
+        println("Creating product...")
+        println(t)
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(null)
     }
 }

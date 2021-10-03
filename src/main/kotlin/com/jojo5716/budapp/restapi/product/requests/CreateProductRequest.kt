@@ -5,14 +5,7 @@ import javax.persistence.ManyToOne
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
-data class ProductBuyRequestParams(
-    @get:Min(1)
-    var id: Int = 0,
-    @get:Min(0)
-    var stock: Int,
-)
-
-data class ProductCreateRequestParams(
+data class CreateProductRequest(
     @get:Size(min = 3, max = 50)
     var name: String,
 
